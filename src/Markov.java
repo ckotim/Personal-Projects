@@ -20,12 +20,17 @@ public class Markov {
 			e.printStackTrace();
 		}
 		Scanner scin = new Scanner(System.in);
+		System.out.print("How many words do you want to generate? ");
+		int numWords = scin.nextInt();
+		scin.nextLine();
+		System.out.println("Enter the first word: ");
 		String first = scin.nextLine();
+		System.out.println("Enter the second word: ");
 		String second = scin.nextLine();
 		chain.add(first);
 		chain.add(second);
 		
-		for (int i = 0; i < 75; i++) {
+		for (int i = 0; i < numWords; i++) {
 			String temp = calculateNext(first, second, words);
 			chain.add(temp);
 			System.out.println(chain);
@@ -80,7 +85,7 @@ public class Markov {
 
 		System.out.println(freq.toString());
 		
-		return returnHighest(freq);
+		return returnHighestProbability(freq);
 	}
 
 	private static String returnHighest(ArrayList<String> possible){
@@ -89,7 +94,6 @@ public class Markov {
 		int max = 0;
 		
 		possible.sort(null);
-		//System.out.println(possible.toString());
 		String temp = possible.get(0);
 		
 		for (int i = 0; i < possible.size(); i++) {
@@ -123,29 +127,15 @@ public class Markov {
 		return markovFreq.get(max);
 	}
 	
-//	private static String returnHighest(ArrayList<String> possible) {
-//		possible.sort(null);
-//		String current = "";
-//		String best = "";
-//		int max = 0;
-//		int total = 0;
-//		for (int i = 0; i < possible.size(); i++) {
-//			if (current.equalsIgnoreCase(possible.get(i)) && i != possible.size() - 1)
-//				total++;
-//			else {
-//				if (total > max) {
-//					best = possible.get(i - 1);
-//				}
-//				current = possible.get(i);
-//				continue;
-//			}
-//			if (total > max) {
-//				best = possible.get(i);
-//			}
-//			System.out.println("Best is : " + best);
-//		}
-//		return best;
-//	}
+	private static String returnHighestProbability(ArrayList<String> possible){
+		possible.sort(null);
+		System.out.println(possible);
+		int temp = (int)Math.round((Math.random() * (possible.size() - 1)));
+		System.out.println(temp);
+		return possible.get(temp);
+	}
+	
+
 	
 	private static String returnFirst(ArrayList<String> possible){
 		possible.sort(null);
