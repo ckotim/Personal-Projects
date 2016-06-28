@@ -12,14 +12,12 @@ public class Markov {
 
 
 	public static void main(String args[]) {
-		try {
-			Scanner scan = new Scanner(new File(args[0]));
-			readFile(scan);
-			scan.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+
+		
+
 		Scanner scin = new Scanner(System.in);
+		System.out.print("Which file should be read? ");
+		readFile(scin.next());
 		System.out.print("How many words do you want to generate? ");
 		int numWords = scin.nextInt();
 		scin.nextLine();
@@ -33,7 +31,6 @@ public class Markov {
 		for (int i = 0; i < numWords; i++) {
 			String temp = calculateNext(first, second, words);
 			chain.add(temp);
-			System.out.println(chain);
 			first = second;
 			second = temp;
 			
@@ -49,18 +46,25 @@ public class Markov {
 		// System.out.println(words.toString());
 	}
 
-	private static void readFile(Scanner sc) {
-		String temp;
-		while (sc.hasNext()) {
-			temp = sc.next();
-			//System.out.println(temp);
-			words.add(temp);
+	private static void readFile(String fileName) {
+		Scanner sc;
+		try {
+			sc = new Scanner(new File(fileName));
+			String temp;
+			while (sc.hasNext()) {
+				temp = sc.next();
+				//System.out.println(temp);
+				words.add(temp);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
+		
 	}
 
 	private static String calculateNext(String first, String second, ArrayList<String> text) {
 		ArrayList<String> freq = new ArrayList<String>();
-		String third = "";
+		String third = "NO_SUCH_WORDS_EXIST";
 		for (int i = 0; i < words.size(); i++) {
 			if (words.get(i).equalsIgnoreCase(first)) {
 				try {
@@ -80,10 +84,17 @@ public class Markov {
 			}
 		}
 		if (freq.isEmpty()) {
+			for (int i = 0; i < words.size(); i++) {
+				if (words.get(i).equalsIgnoreCase(first)) {
+					freq.add(words.get(i + 1));
+				}
+			}
+		}
+		if (freq.isEmpty()) {
 			return third;
 		}
 
-		System.out.println(freq.toString());
+		//System.out.println(freq.toString());
 		
 		return returnHighestProbability(freq);
 	}
@@ -129,9 +140,9 @@ public class Markov {
 	
 	private static String returnHighestProbability(ArrayList<String> possible){
 		possible.sort(null);
-		System.out.println(possible);
+		//System.out.println(possible);
 		int temp = (int)Math.round((Math.random() * (possible.size() - 1)));
-		System.out.println(temp);
+		//System.out.println(temp);
 		return possible.get(temp);
 	}
 	
