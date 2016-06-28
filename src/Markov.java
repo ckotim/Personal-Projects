@@ -28,6 +28,7 @@ public class Markov {
 		for (int i = 0; i < 75; i++) {
 			String temp = calculateNext(first, second, words);
 			chain.add(temp);
+			System.out.println(chain);
 			first = second;
 			second = temp;
 			
@@ -36,7 +37,6 @@ public class Markov {
 		for (int i = 0; i < chain.size(); i++) {
 			finalChain += chain.get(i);
 			finalChain += " ";
-			
 		}
 		System.out.println(finalChain);
 		
@@ -58,8 +58,12 @@ public class Markov {
 		String third = "";
 		for (int i = 0; i < words.size(); i++) {
 			if (words.get(i).equalsIgnoreCase(first)) {
-				if (words.get(i + 1).equalsIgnoreCase(second)) {
-					freq.add(words.get(i + 2));
+				try {
+					if (words.get(i + 1).equalsIgnoreCase(second)) {
+						freq.add(words.get(i + 2));
+					}
+				} catch (IndexOutOfBoundsException e) {
+					continue;
 				}
 			}
 		}
@@ -74,7 +78,7 @@ public class Markov {
 			return third;
 		}
 
-		//System.out.println(freq.toString());
+		System.out.println(freq.toString());
 		
 		return returnHighest(freq);
 	}
@@ -85,7 +89,7 @@ public class Markov {
 		int max = 0;
 		
 		possible.sort(null);
-		System.out.println(possible.toString());
+		//System.out.println(possible.toString());
 		String temp = possible.get(0);
 		
 		for (int i = 0; i < possible.size(); i++) {
@@ -100,17 +104,48 @@ public class Markov {
 				temp = possible.get(i);
 				num = 0;
 				i--;
+				continue;
+			}
+			if (i == possible.size() - 1) {
+				if (max < num) {
+					max = num;
+				}
+				markovFreq.put(num, possible.get(i));
 			}
 
 	
 			
 			
-			System.out.println(markovFreq.toString());
+			//System.out.println(markovFreq.toString());
 				
 		}
-		markovFreq.put(num, possible.get(possible.size() - 1));
+		System.out.println(markovFreq.toString());
 		return markovFreq.get(max);
 	}
+	
+//	private static String returnHighest(ArrayList<String> possible) {
+//		possible.sort(null);
+//		String current = "";
+//		String best = "";
+//		int max = 0;
+//		int total = 0;
+//		for (int i = 0; i < possible.size(); i++) {
+//			if (current.equalsIgnoreCase(possible.get(i)) && i != possible.size() - 1)
+//				total++;
+//			else {
+//				if (total > max) {
+//					best = possible.get(i - 1);
+//				}
+//				current = possible.get(i);
+//				continue;
+//			}
+//			if (total > max) {
+//				best = possible.get(i);
+//			}
+//			System.out.println("Best is : " + best);
+//		}
+//		return best;
+//	}
 	
 	private static String returnFirst(ArrayList<String> possible){
 		possible.sort(null);
