@@ -37,11 +37,15 @@ public class Markov {
 		String finalChain = "";
 		for (int i = 0; i < chain.size(); i++) {
 			finalChain += chain.get(i);
-			finalChain += " ";
+			char temp = finalChain.charAt(finalChain.length() - 1);
+			if (temp == '.' || temp == '!' || temp == '.') {
+				finalChain += "\n";
+			} else {
+				finalChain += " ";
+			}
 		}
 		System.out.println(finalChain);
 
-		
 	}
 
 	private static void readFile(String fileName) {
@@ -97,7 +101,7 @@ public class Markov {
 	private static String returnHighestProbability(ArrayList<String> possible) {
 		int temp = (int) Math.round((Math.random() * (possible.size() - 1)));
 		Random rand = new Random(1000);
-		temp = Math.abs(rand.nextInt() % (possible.size()));
+		// temp = Math.abs(rand.nextInt() % (possible.size()));
 		return possible.get(temp);
 	}
 }
