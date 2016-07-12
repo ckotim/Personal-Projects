@@ -37,6 +37,7 @@ public class Markov {
 		String finalChain = "";
 		for (int i = 0; i < chain.size(); i++) {
 			finalChain += chain.get(i);
+<<<<<<< HEAD:Java/Markov Text Chain Generator/src/Markov.java
 			char temp = finalChain.charAt(finalChain.length() - 1);
 			if (temp == '.' || temp == '!' || temp == '.') {
 				finalChain += "\n";
@@ -46,6 +47,13 @@ public class Markov {
 		}
 		System.out.println(finalChain);
 
+=======
+			finalChain += " ";
+		}
+		System.out.println(finalChain);
+
+		
+>>>>>>> origin/master:src/Markov.java
 	}
 
 	private static void readFile(String fileName) {
@@ -66,6 +74,7 @@ public class Markov {
 	private static String calculateNext(String first, String second, ArrayList<String> text) {
 		ArrayList<String> freq = new ArrayList<String>();
 		String third = "NO_SUCH_WORDS_EXIST";
+<<<<<<< HEAD:Java/Markov Text Chain Generator/src/Markov.java
 		try {
 			for (int i = 0; i < words.size(); i++) {
 				if (words.get(i).equalsIgnoreCase(first)) {
@@ -97,6 +106,35 @@ public class Markov {
 			}
 		} catch (IndexOutOfBoundsException e) {
 			return returnHighestProbability(freq);
+=======
+		for (int i = 0; i < words.size(); i++) {
+			if (words.get(i).equalsIgnoreCase(first)) {
+				try {
+					if (words.get(i + 1).equalsIgnoreCase(second)) {
+						freq.add(words.get(i + 2));
+					}
+				} catch (IndexOutOfBoundsException e) {
+					continue;
+				}
+			}
+		}
+		if (freq.isEmpty()) {
+			for (int i = 0; i < words.size(); i++) {
+				if (words.get(i).equalsIgnoreCase(second)) {
+					freq.add(words.get(i + 1));
+				}
+			}
+		}
+		if (freq.isEmpty()) {
+			for (int i = 0; i < words.size(); i++) {
+				if (words.get(i).equalsIgnoreCase(first)) {
+					freq.add(words.get(i + 1));
+				}
+			}
+		}
+		if (freq.isEmpty()) {
+			return third;
+>>>>>>> origin/master:src/Markov.java
 		}
 
 		return returnHighestProbability(freq);
@@ -105,7 +143,14 @@ public class Markov {
 	private static String returnHighestProbability(ArrayList<String> possible) {
 		int temp = (int) Math.round((Math.random() * (possible.size() - 1)));
 		Random rand = new Random(1000);
+<<<<<<< HEAD:Java/Markov Text Chain Generator/src/Markov.java
 		// temp = Math.abs(rand.nextInt() % (possible.size()));
 		return possible.get(temp);
 	}
 }
+=======
+		temp = Math.abs(rand.nextInt() % (possible.size()));
+		return possible.get(temp);
+	}
+}
+>>>>>>> origin/master:src/Markov.java
